@@ -10,21 +10,21 @@ import org.apache.spark.sql.{Dataset, SQLContext, SparkSession}
 object StateConsumer extends App with Logging {
 
   val appName: String = "spark-state-consumer-example"
-  val checkpointLocation: String = Files.createTempDirectory(appName).toString
+  val checkpointLocation: String = "/Users/longxiang/devel/github/UvAAI/thesis_ai/thesis/spark-streaming-state-store-example/states"
   var query: StreamingQuery = _
 
   log.info(s"Running the process in temporary directory $checkpointLocation")
 
   val spark = SparkSession.builder()
     // spark props
-    .master("local[2]")
+    .master("local[*]")
     .appName(appName)
     .config("spark.driver.memory", "5g")
     .config("spark.sql.shuffle.partitions", "1")
     .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
     .getOrCreate()
 
-  spark.sparkContext.setLogLevel("INFO")
+  spark.sparkContext.setLogLevel("WARN")
 
   import spark.implicits._
 
